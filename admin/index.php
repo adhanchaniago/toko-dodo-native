@@ -85,6 +85,10 @@ $page = $_GET['p'];
                                     case 'user':
                                         require_once 'page/user/index.php';
                                         break;
+
+                                    case 'huser':
+                                        require_once 'page/user/huser.php';
+                                        break;
                                     
                                     default:
                                         require_once 'index.php';

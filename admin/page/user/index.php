@@ -10,6 +10,14 @@ if(isset($_POST['tambah'])) {
 		echo "<script>alert('Data User Gagal Ditambahkan.');window.location='?p=user';</script>";
 	}
 }
+
+if(isset($_POST['ubah'])) {
+	if(ubahuser($_POST) > 0) {
+		echo "<script>alert('Data User Berhasil Diubah.');window.location='?p=user';</script>";
+	} else {
+		echo "<script>alert('Data User Gagal Diubah.');window.location='?p=user';</script>";
+	}
+}
 ?>
 <div class="row" style="margin-bottom: 10px;">
 	<div class="col-md-6">
@@ -46,10 +54,50 @@ if(isset($_POST['tambah'])) {
 							<img src="<?= base_url('admin/img/profile/') . $data['foto_user']; ?>" width="50">
 						</td>
 						<td>
-							<button type="button" class="btn btn-info" data-toggle="modal" data-target="#formUbahUser"><i class="fa fa-edit"></i></button>
-							<button type="button" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+							<button type="button" class="btn btn-info" data-toggle="modal" data-target="#formUbahUser<?= $data['id_user']; ?>"><i class="fa fa-edit"></i></button>
+							<a href="?p=huser&id=<?= $data['id_user']; ?>" class="btn btn-danger" onclick="return confirm('Yakin ?')"><i class="fa fa-trash"></i></a>
 						</td>
 					</tr>
+						<!-- MODAL FROM Ubah USER -->
+						<div class="modal fade" id="formUbahUser<?= $data['id_user']; ?>" tabindex="-1" role="dialog" aria-labelledby="modalUbahLabel" aria-hidden="true">
+						<div class="modal-dialog" role="document">
+						    <div class="modal-content">
+						        <div class="modal-header">
+						            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						            <h4 class="modal-title" id="modalUbahLabel">Tambah User</h4>
+						        </div>
+						        <div class="modal-body">
+						        <form action="" method="post" enctype="multipart/form-data">
+						        	<input type="text" name="id" value="<?= $data['id_user']; ?>">
+									<div class="form-group">
+						                <label for="nama">Nama User</label>
+						                <input class="form-control" name="nama" id="nama" type="text" required="" value="<?= $data['nama_user']; ?>">
+						            </div>
+						            <div class="form-group">
+						                <label for="email">Email</label>
+						                <input class="form-control" name="email" id="email" type="email" required="" readonly="" value="<?= $data['email']; ?>">
+						            </div>
+						            <div class="form-group">
+						                <label for="password">Password</label>
+						                <input class="form-control" name="password" id="password" type="password" required="" value="<?= $data['password']; ?>">
+						            </div>
+						            <div class="form-group">
+						                <label for="foto">Foto</label><br>
+						                <img src="<?= base_url('admin/img/profile/') . $data['foto_user']; ?>" width="100">
+						                <input type="text" name="fotoLama" value="<?= $data['foto_user']; ?>">
+						                <input class="form-control-file" name="foto" id="foto" type="file">
+						            </div>
+							        <div class="modal-footer">
+							            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+							            <button type="submit" name="ubah" class="btn btn-primary">Save changes</button>
+							        </div>
+								</form>
+						        </div>
+						    </div>
+						    <!-- /.modal-content -->
+						</div>
+						<!-- /.modal-dialog -->
+						</div>
                 	<?php endwhile; ?>
                 </tbody>
             </table>

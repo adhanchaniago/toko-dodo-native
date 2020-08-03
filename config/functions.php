@@ -11,7 +11,7 @@ function base_url($url = null)
 	}
 }
 
-// --------------USER------------------------ 30:16
+// --------------USER------------------------ 
 function tambahuser($data)
 {
 	global $conn;
@@ -63,5 +63,59 @@ function tambahuser($data)
 
 	$sql = $conn->query("INSERT INTO tb_user VALUES (null, '$email', '$nama', '$password', '2', '$namaFileBaru') ") or die(mysqli_error($conn));
 	return $namaFileBaru;
+	return $conn->affected_rows;
+}
+
+function uploadFotoUser()
+{
+	$namaFoto = $_FILES['foto']['name'];
+	$errorFoto = $_FILES['foto']['error'];
+	$sizeFoto = $_FILES['foto']['size'];
+	$tmpFoto = $_FILES['foto']['tmp_name'];
+
+	$ektensiValid = ['jpg','png'];
+	$ektensiFoto = explode('.', $namaFoto);
+	$ektensiFoto = strtolower(end($ektensiFoto));
+
+	if(!in_array($ektensiFoto, $ektensiValid)) {
+		echo "<script>alert('Format foto harus jpg/png.')</script>";
+		return false;
+	}
+
+	if($sizeFoto > 1000000) {
+		echo "<script>alert('Ukuran foto terlalu besar, max 1MB.')</script>";
+		return false;
+	}
+
+	$namaFileBaru = uniqid();
+	$namaFileBaru .= '.';
+	$namaFileBaru .= $ektensiFoto;
+
+	// $fotoLama = $_POST['fotoLama'];
+	// if($fotoLama != 'default.jpg')) {
+	// 	unlink('./admin/img/profile/' . $fotoLama);
+	// }
+
+	move_uploaded_file($tmpFoto, '../admin/img/profile/' . $namaFileBaru);
+	return $namaFileBaru;
+}
+
+function ubahuser($data)
+{
+	global $conn;
+	$id = htmlspecialchars($data['id']);
+	$nama = htmlspecialchars($data['nama']);
+	$email = htmlspecialchars($data['email']);
+	$password = htmlspecialchars(md5($data['password']));
+	$fotoLama = htmlspecialchars($data['fotoLama']);
+
+	// cek foto 
+	if($_FILES['foto']['error'] === 4) {
+		$foto = $fotoLama;
+	} else {
+		$foto = uploadFotoUser();
+	}
+
+	$conn->query("UPDATE tb_user SET email = '$email', nama_user = '$nama', password = '$password', foto_user = '$foto' WHERE id_user = $id") or die(mysqli_error($conn));
 	return $conn->affected_rows;
 }
