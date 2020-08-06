@@ -35,12 +35,12 @@ $page = $_GET['p'];
                 <ul class="nav navbar-right navbar-top-links">
                     <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                            <i class="fa fa-user fa-fw"></i> secondtruth <b class="caret"></b>
+                            <i class="fa fa-user fa-fw"></i> <?= $_SESSION['nama']; ?> <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu dropdown-user">
-                            <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                            <li><a href="?p=uprofile"><i class="fa fa-user fa-fw"></i> Ubah Profile</a>
                             </li>
-                            <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                            <li><a href="?p=gpass"><i class="fa fa-key fa-fw"></i> Ganti Password</a>
                             </li>
                             <li class="divider"></li>
                             <li><a href="logout.php"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
@@ -68,16 +68,26 @@ $page = $_GET['p'];
                                         case 'user':
                                             echo "Kelola User";
                                             break;
+
+                                        case 'uprofile':
+                                            echo "Ubah Profile";
+                                            break;
+
+                                        case 'gpass':
+                                            echo "Ganti Password";
+                                            break;
                                         
                                         default:
                                             echo "Beranda";
                                             break;
                                     }
+                                } else {
+                                    echo "Beranda";
                                 }
                                 ?>
                                 <!-- /Judul Halaman -->
                             </h1>
-                            <!-- <?= var_dump($_SESSION); ?> -->
+                            <?= var_dump($_SESSION); ?>
                             <!-- CONTER -->
                             <?php 
                             if(isset($page)) {
@@ -88,6 +98,14 @@ $page = $_GET['p'];
 
                                     case 'huser':
                                         require_once 'page/user/huser.php';
+                                        break;
+
+                                    case 'uprofile':
+                                        require_once 'page/user/uprofile.php';
+                                        break;
+
+                                    case 'gpass':
+                                        require_once 'page/user/gpass.php';
                                         break;
                                     
                                     default:

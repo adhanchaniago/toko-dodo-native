@@ -7,7 +7,31 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Startmin - Bootstrap Admin Theme</title>
+    <title>
+        <?php  
+        if($page) {
+            switch ($page) {
+                case 'user':
+                    echo "Kelola Users";
+                    break;
+
+                case 'uprofile':
+                    echo "Ubah Profile";
+                    break;
+
+                case 'gpass':
+                    echo "Ganti Password";
+                    break;
+                
+                default:
+                    echo "Beranda";
+                    break;
+            }
+        } else {
+            echo "Beranda";
+        }
+        ?>        
+    </title>
 
     <!-- Bootstrap Core CSS -->
     <link href="<?= base_url('admin/'); ?>css/bootstrap.min.css" rel="stylesheet">

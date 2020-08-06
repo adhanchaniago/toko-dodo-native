@@ -119,3 +119,74 @@ function ubahuser($data)
 	$conn->query("UPDATE tb_user SET email = '$email', nama_user = '$nama', password = '$password', foto_user = '$foto' WHERE id_user = $id") or die(mysqli_error($conn));
 	return $conn->affected_rows;
 }
+
+function ubahprofile($data)
+{
+	global $conn;
+	$id = htmlspecialchars($data['id']);
+	$email = htmlspecialchars($data['email']);
+	$nama = htmlspecialchars($data['nama']);
+	$password = htmlspecialchars($data['password']);
+	$fotoLama = htmlspecialchars($data['fotoLama']);
+
+	// cek foto
+	if($_FILES['foto']['error'] === 4) {
+		$foto = $fotoLama;
+	} else {
+		$foto = profileUbah();
+	}
+
+	$sql = $conn->query("UPDATE tb_user SET email = '$email', nama_user = '$nama', password = '$password', foto_user = '$foto' WHERE id_user = $id") or die(mysqli_error($conn));
+	return $conn->affected_rows;
+}
+
+function profileUbah()
+{
+	$namaFoto = $_FILES['foto']['name'];
+	$errorFoto = $_FILES['foto']['error'];
+	$sizeFoto = $_FILES['foto']['size'];
+	$tmpFoto = $_FILES['foto']['tmp_name'];
+
+	$ektensiValid = ['jpg', 'jpeg', 'png'];
+	$ektensiFoto = explode('.', $namaFoto);
+	$ektensiFoto = strtolower(end($ektensiFoto));
+
+	if(!in_array($ektensiFoto, $ektensiValid)) {
+		echo "<script>alert('Ektensi Harus JPG/PNG');</script>";
+		return false;
+	}
+
+	if($sizeFoto > 1000000) {
+		echo "<script>alert('Ukuran Max 1MB');</script>";
+		return false;
+	}
+
+	$fotoLama = $_POST['fotoLama'];
+	if($fotoLama != 'default.jpg') {
+		unlink('../admin/img/profile/' . $fotoLama);
+	}
+
+	$namaFileBaru = uniqid();
+	$namaFileBaru .= '.';
+	$namaFileBaru .= $ektensiFoto;
+
+	move_uploaded_file($tmpFoto, '../admin/img/profile/'. $namaFileBaru);
+	return $namaFileBaru;
+}
+
+function gantipass($data)
+{
+	global $conn;
+	$id = $_POST['id'];
+	$passLama = htmlspecialchars(md5($data['passlama']));
+	$passBaru1 = htmlspecialchars(md5($data['passbaru1']));
+	$passBaru2 = htmlspecialchars($data['passbaru2']);
+
+	if($passLama != $passBaru1) {
+		echo "<script>alert('Password Lama, Tidak Boleh Sama Dengan Password Baru!');</script>";
+		return false;
+	}
+
+	$conn->query("UPDATE tb_user SET password = '$passBaru1' WHERE id_user = $id") or die(mysqli_error($conn));
+	return $conn->affected_rows;
+}
