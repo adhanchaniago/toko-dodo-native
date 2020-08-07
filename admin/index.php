@@ -76,6 +76,10 @@ $page = $_GET['p'];
                                         case 'gpass':
                                             echo "Ganti Password";
                                             break;
+
+                                        case 'konfig':
+                                            echo "Konfigurasi Situs";
+                                            break;
                                         
                                         default:
                                             echo "Beranda";
@@ -106,6 +110,10 @@ $page = $_GET['p'];
 
                                     case 'gpass':
                                         require_once 'page/user/gpass.php';
+                                        break;
+
+                                    case 'konfig':
+                                        require_once 'page/konfigurasi/konfig.php';
                                         break;
                                     
                                     default:

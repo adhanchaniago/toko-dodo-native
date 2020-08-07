@@ -190,3 +190,101 @@ function gantipass($data)
 	$conn->query("UPDATE tb_user SET password = '$passBaru1' WHERE id_user = $id") or die(mysqli_error($conn));
 	return $conn->affected_rows;
 }
+
+
+// --------------------KONFIGURASI SITUS---------------------
+function uploadImgLogo()
+{
+	$namaFotoLogo = $_FILES['uploadLogo']['name'];
+	$sizeFotoLogo = $_FILES['uploadLogo']['size'];
+	$errorFotoLogo = $_FILES['uploadLogo']['error'];
+	$tmpFotoLogo = $_FILES['uploadLogo']['tmp_name'];
+
+	if($errorFotoLogo == 4) {
+		echo "<script>alert('Upload Logo Dulu.');</script>";
+		return false;
+	}
+
+	$ektensiValid = ['jpeg', 'jpg', 'png'];
+	$ektensiFoto = explode('.', $namaFotoLogo);
+	$ektensiFoto = strtolower(end($ektensiFoto));
+
+	if(!in_array($ektensiFoto, $ektensiValid)) {
+		echo "<script>alert('Ektensi Harus JPG/PNG');</script>";
+		return false;
+	}
+
+	if($sizeFotoLogo > 1000000) {
+		echo "<script>alert('Size Max 1MB');</script>";
+		return false;
+	}
+
+	$namaFileBaru = uniqid();
+	$namaFileBaru .= '.';
+	$namaFileBaru .= $ektensiFoto;
+
+	move_uploaded_file($tmpFotoLogo, '../img/logo/' . $namaFileBaru);
+	return $namaFileBaru;
+}
+
+function uploadLogo($data) 
+{
+	global $conn;
+	$uploadLogoLama = htmlspecialchars($data['uploadLogoLama']);
+	if($_FILES['uploadLogo']['name'] === 4) {
+		$uploadLogo = $uploadLogoLama;
+	} else {
+		$uploadLogo = uploadImgLogo();
+	}
+
+	$conn->query("UPDATE konfig_situs SET logo_situs = '$uploadLogo'") or die(mysqli_error($conn));
+	return $conn->affected_rows;
+}
+
+function uploadImgIcon()
+{
+	$namaFotoIcon = $_FILES['uploadIcon']['name'];
+	$sizeFotoIcon = $_FILES['uploadIcon']['size'];
+	$errorFotoIcon = $_FILES['uploadIcon']['error'];
+	$tmpFotoIcon = $_FILES['uploadIcon']['tmp_name'];
+
+	if($errorFotoIcon == 4) {
+		echo "<script>alert('Upload Icon Dulu.');</script>";
+		return false;
+	}
+
+	$ektensiValid = ['jpeg', 'jpg', 'png'];
+	$ektensiFoto = explode('.', $namaFotoIcon);
+	$ektensiFoto = strtolower(end($ektensiFoto));
+
+	if(!in_array($ektensiFoto, $ektensiValid)) {
+		echo "<script>alert('Ektensi Harus JPG/PNG');</script>";
+		return false;
+	}
+
+	if($sizeFotoIcon > 1000000) {
+		echo "<script>alert('Size Max 1MB');</script>";
+		return false;
+	}
+
+	$namaFileBaru = uniqid();
+	$namaFileBaru .= '.';
+	$namaFileBaru .= $ektensiFoto;
+
+	move_uploaded_file($tmpFotoIcon, '../img/logo/' . $namaFileBaru);
+	return $namaFileBaru;
+}
+
+function uploadIcon($data) 
+{
+	global $conn;
+	$uploadIconLama = htmlspecialchars($data['uploadIconLama']);
+	if($_FILES['uploadIcon']['name'] === 4) {
+		$uploadIcon = $uploadIconLama;
+	} else {
+		$uploadIcon = uploadImgIcon();
+	}
+
+	$conn->query("UPDATE konfig_situs SET logo_icon = '$uploadIcon'") or die(mysqli_error($conn));
+	return $conn->affected_rows;
+}

@@ -22,6 +22,9 @@
                 case 'gpass':
                     echo "Ganti Password";
                     break;
+                case 'konfig':
+                    echo "Konfigurasi Situs";
+                    break;
                 
                 default:
                     echo "Beranda";

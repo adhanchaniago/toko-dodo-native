@@ -11,6 +11,9 @@
                 <a href="?p=kategori"><i class="fa fa-edit fa-fw"></i> Kategori</a>
             </li>
             <li>
+                <a href="?p=konfig"><i class="fa fa-edit fa-fw"></i> Konfigurasi</a>
+            </li>
+            <li>
                 <a href="?p=user"><i class="fa fa-users fa-fw"></i> Kelola Users</a>
             </li>
             <!-- <li>

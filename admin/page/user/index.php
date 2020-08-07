@@ -68,7 +68,7 @@ if(isset($_POST['ubah'])) {
 						        </div>
 						        <div class="modal-body">
 						        <form action="" method="post" enctype="multipart/form-data">
-						        	<input type="text" name="id" value="<?= $data['id_user']; ?>">
+						        	<input type="hidden" name="id" value="<?= $data['id_user']; ?>">
 									<div class="form-group">
 						                <label for="nama">Nama User</label>
 						                <input class="form-control" name="nama" id="nama" type="text" required="" value="<?= $data['nama_user']; ?>">
