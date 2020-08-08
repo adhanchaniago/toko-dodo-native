@@ -2,6 +2,9 @@
 session_start(); 
 require_once '../config/functions.php';
 
+$tampilLogo = $conn->query("SELECT * FROM konfig_situs") or die(mysqli_error($conn));
+$rowLogo = $tampilLogo->fetch_assoc();
+
 if(isset($_SESSION['level'])) {
     header("Location: index.php");
     exit;
@@ -74,7 +77,7 @@ if(isset($_POST['masuk'])) {
             <div class="col-md-4 col-md-offset-4">
                 <div class="login-panel panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Administrator Portal Berita Do</h3>
+                        <h3 class="panel-title"><img src="../img/logo/<?= $rowLogo['logo_situs']; ?>" class="img-thumbnail" width="100"> Administrator Portal Berita Do</h3>
                     </div>
                     <div class="panel-body">
                     <?php if(isset($error)) : ?>

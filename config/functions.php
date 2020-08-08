@@ -288,3 +288,40 @@ function uploadIcon($data)
 	$conn->query("UPDATE konfig_situs SET logo_icon = '$uploadIcon'") or die(mysqli_error($conn));
 	return $conn->affected_rows;
 }
+
+function tambahKonfig($data)
+{
+	global $conn;
+	$nama = htmlspecialchars($data['nama']);
+	$tax = htmlspecialchars($data['tax']);
+	$isi = htmlspecialchars($data['isi']);
+	$link = htmlspecialchars($data['link']);
+
+	$conn->query("INSERT INTO konfigurasi VALUES(null, '$nama', '$tax', '$isi', '$link', 'konfigurasi')") or die(mysqli_error($conn));
+	return $conn->affected_rows;
+}
+
+function editKonfig($data)
+{
+	global $conn;
+	$count = count($data['id']);
+
+	for ($i=0; $i < $count; $i++) { 
+		$id = htmlspecialchars($data['id'][$i]);
+		$nama = htmlspecialchars($data['nama'][$i]);
+		$tax = htmlspecialchars($data['tax'][$i]);
+		$isi = htmlspecialchars($data['isi'][$i]);
+		$link = htmlspecialchars($data['link'][$i]);
+		$conn->query("UPDATE konfigurasi SET nama = '$nama', tax = '$tax', isi = '$isi', link = '$link' WHERE id_kon = $id") or die(mysqli_error($conn));
+	}
+	return $conn->affected_rows;
+}
+
+function getprofileweb($tax)
+{
+	global $conn;
+	$hasil = $conn->query("SELECT * FROM konfigurasi WHERE tax = '$tax' ORDER BY id_kon DESC LIMIT 1") or die(mysqli_error($conn));
+	while($row = $hasil->fetch_assoc()) {
+		return $row['isi'];
+	}
+}

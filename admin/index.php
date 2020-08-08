@@ -115,6 +115,10 @@ $page = $_GET['p'];
                                     case 'konfig':
                                         require_once 'page/konfigurasi/konfig.php';
                                         break;
+
+                                    case 'khapus':
+                                        require_once 'page/konfigurasi/khapus.php';
+                                        break;
                                     
                                     default:
                                         require_once 'index.php';
