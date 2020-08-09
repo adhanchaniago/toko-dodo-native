@@ -1,6 +1,6 @@
 <?php  
 session_start();
-error_reporting(0);
+// error_reporting(0);
 require_once '../config/functions.php';
 
 if(!isset($_SESSION['level'])) {
@@ -80,6 +80,14 @@ $page = $_GET['p'];
                                         case 'konfig':
                                             echo "Konfigurasi Situs";
                                             break;
+
+                                        case 'kategori':
+                                            echo "Kategori";
+                                            break;
+
+                                        case 'berita':
+                                            echo "Berita";
+                                            break;
                                         
                                         default:
                                             echo "Beranda";
@@ -118,6 +126,18 @@ $page = $_GET['p'];
 
                                     case 'khapus':
                                         require_once 'page/konfigurasi/khapus.php';
+                                        break;
+
+                                    case 'kategori':
+                                        require_once 'page/kategori/kategori.php';
+                                        break;
+
+                                    case 'hkat':
+                                        require_once 'page/kategori/hkat.php';
+                                        break;
+
+                                    case 'berita':
+                                        require_once 'page/berita/index.php';
                                         break;
                                     
                                     default:

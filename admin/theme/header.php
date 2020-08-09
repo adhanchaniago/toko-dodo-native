@@ -25,6 +25,12 @@
                 case 'konfig':
                     echo "Konfigurasi Situs";
                     break;
+                case 'kategori':
+                    echo "Kategori";
+                    break;
+                case 'berita':
+                    echo "Berita";
+                    break;
                 
                 default:
                     echo "Beranda";

@@ -325,3 +325,77 @@ function getprofileweb($tax)
 		return $row['isi'];
 	}
 }
+
+
+// ----------------------------------KATEGORI----------------------------------------
+
+function tambahKategori($data)
+{
+	global $conn;
+	$nama = htmlspecialchars($data['nama']);
+	$alias = htmlspecialchars($data['alias']);
+	$terbit = htmlspecialchars($data['terbit']);
+
+	if(empty($nama && $alias && $terbit)) {
+		echo "<script>alert('Form tidak boleh kosong!');</script>";
+		return false;
+	}
+
+	$conn->query("INSERT INTO kategori VALUES(null, '$nama', '$alias', '$terbit')") or die(mysqli_error($conn));
+	return $conn->affected_rows;
+}
+
+function ubahKategori($data)
+{
+	global $conn;
+	$id = htmlspecialchars($data['id']);
+	$nama = htmlspecialchars($data['nama']);
+	$alias = htmlspecialchars($data['alias']);
+	$terbit = htmlspecialchars($data['terbit']);
+
+	if(empty($nama && $alias && $terbit)) {
+		echo "<script>alert('Form tidak boleh kosong!');</script>";
+		return false;
+	}
+
+	$conn->query("UPDATE kategori SET nama_kategori = '$nama', alias = '$alias', terbit = '$terbit' WHERE id_kategori = $id") or die(mysqli_error($conn));
+	return $conn->affected_rows;
+}
+
+
+// ---------------------------BERITA----------------------------
+
+function tambahBerita($data)
+{
+	global $conn;
+	$judul = htmlspecialchars($data['judul']);
+	$kategori = htmlspecialchars($data['kategori']);
+	$isi = htmlspecialchars($data['isi']);
+	$teks = htmlspecialchars($data['teks']);
+	$terbit = htmlspecialchars($data['terbit']);
+	$tgl = date('d-F-Y');
+	$updateBy = htmlspecialchars($data['updateby']);
+
+	// cek foto
+	$namaFoto = $_FILES['foto']['name'];
+	$tmpFoto = $_FILES['foto']['tmp_name'];
+
+	$ektensiValid = ['jpg', 'jpeg', 'png'];
+	$ektensiFoto = explode('.', $namaFoto);
+	$ektensiFoto = strtolower(end($ektensiFoto));
+
+	// if(!in_array($ektensiFoto, $ektensiValid)) {
+	// 	echo "<script>alert('Format Harus JPG/PNG!');</script>";
+	// 	return false;
+	// }
+
+	$namaFileBaru = uniqid();
+	$namaFileBaru .= '.';
+	$namaFileBaru .= $ektensiFoto;
+
+	move_uploaded_file($tmpFoto, '../admin/img/berita/' . $namaFileBaru);
+
+	$conn->query("INSERT INTO berita VALUES(null, '$judul', '$kategori', '$isi', '$namaFileBaru', '$teks', '$tgl', '$updateBy', '0', 'Berita', '$terbit')") or die(mysqli_error($conn));
+	return $namaFileBaru;
+	return $conn->affected_rows;
+}
