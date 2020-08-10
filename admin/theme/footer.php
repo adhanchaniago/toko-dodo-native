@@ -1,6 +1,8 @@
         </div>
         <!-- /#wrapper -->
-
+         <script>
+            $('.summernote').summernote();
+         </script>
         <!-- jQuery -->
         <script src="<?= base_url('admin/'); ?>js/jquery.min.js"></script>
 
@@ -12,6 +14,8 @@
 
         <!-- Custom Theme JavaScript -->
         <script src="<?= base_url('admin/'); ?>js/startmin.js"></script>
+
+
 
     </body>
 </html>

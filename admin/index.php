@@ -139,6 +139,9 @@ $page = $_GET['p'];
                                     case 'berita':
                                         require_once 'page/berita/index.php';
                                         break;
+                                    case 'hber':
+                                        require_once 'page/berita/hber.php';
+                                        break;
                                     
                                     default:
                                         require_once 'index.php';

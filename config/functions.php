@@ -370,7 +370,7 @@ function tambahBerita($data)
 	global $conn;
 	$judul = htmlspecialchars($data['judul']);
 	$kategori = htmlspecialchars($data['kategori']);
-	$isi = htmlspecialchars($data['isi']);
+	$isi = $data['isi'];
 	$teks = htmlspecialchars($data['teks']);
 	$terbit = htmlspecialchars($data['terbit']);
 	$tgl = date('d-F-Y');
@@ -398,4 +398,60 @@ function tambahBerita($data)
 	$conn->query("INSERT INTO berita VALUES(null, '$judul', '$kategori', '$isi', '$namaFileBaru', '$teks', '$tgl', '$updateBy', '0', 'Berita', '$terbit')") or die(mysqli_error($conn));
 	return $namaFileBaru;
 	return $conn->affected_rows;
+}
+
+function ubahBerita($data)
+{
+	global $conn;
+	$id = htmlspecialchars($data['id']);
+	$judul = htmlspecialchars($data['judul']);
+	$kategori = htmlspecialchars($data['kategori']);
+	$isi = $data['isi'];
+	$teks = htmlspecialchars($data['teks']);
+	$terbit = htmlspecialchars($data['terbit']);
+	$fotoLama = htmlspecialchars($data['fotoLama']);
+
+	// cek foto
+	if($_FILES['foto']['error'] == 4) {
+		$foto = $fotoLama;
+	} else {
+		$foto = uploadFotoBerita();
+	}
+
+	$conn->query("UPDATE berita SET judul = '$judul', id_kategori = '$kategori', isi = '$isi', foto = '$foto', teks = '$teks', terbit = '$terbit' WHERE id_berita = $id") or die(mysqli_error($conn));
+	return $conn->affected_rows;
+}
+
+function uploadFotoBerita()
+{
+	$namaFoto = $_FILES['foto']['name'];
+	$sizeFoto = $_FILES['foto']['size'];
+	$errorFoto = $_FILES['foto']['error'];
+	$tmpFoto = $_FILES['foto']['tmp_name'];
+
+	if($errorFoto === 4) {
+		echo "<script>alert('Upload Foto Dulu.');</script>";
+		return false;
+	}
+
+	$ektensiValid = ['jpeg', 'jpg', 'png'];
+	$ektensiFoto = explode('.', $namaFoto);
+	$ektensiFoto = strtolower(end($ektensiFoto));
+
+	if(!in_array($ektensiFoto, $ektensiValid)) {
+		echo "<script>alert('Ektensi Harus JPG/PNG');</script>";
+		return false;
+	}
+
+	if($sizeFoto > 1000000) {
+		echo "<script>alert('Size Max 1MB');</script>";
+		return false;
+	}
+
+	$namaFileBaru = uniqid();
+	$namaFileBaru .= '.';
+	$namaFileBaru .= $ektensiFoto;
+
+	move_uploaded_file($tmpFoto, 'img/berita/' . $namaFileBaru);
+	return $namaFileBaru;
 }
