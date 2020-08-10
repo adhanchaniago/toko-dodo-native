@@ -1,7 +1,10 @@
 <?php  
 session_start();
-// error_reporting(0);
 require_once '../config/functions.php';
+
+if(!isset($_GET['p'])) {
+    error_reporting(0);
+}
 
 if(!isset($_SESSION['level'])) {
     header("Location: login.php");

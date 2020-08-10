@@ -57,7 +57,7 @@ require_once 'config/functions.php';
 					        </div>
 					        <button type="submit" class="btn btn-default">Submit</button>
 					    </form>
-					    <li><a href="#">Masuk</a></li>
+					    <li><a href="<?= base_url('admin/login.php'); ?>">Masuk</a></li>
 				      </ul>
 				    </div><!-- /.navbar-collapse -->
 				  </div><!-- /.container-fluid -->
