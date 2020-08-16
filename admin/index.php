@@ -21,7 +21,7 @@ $page = $_GET['p'];
             <!-- Navigation -->
             <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="index.html">News Dodo</a>
+                    <a class="navbar-brand" href="index.html"><?= getprofileweb('site_url'); ?></a>
                 </div>
 
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -32,7 +32,7 @@ $page = $_GET['p'];
                 </button>
 
                 <ul class="nav navbar-nav navbar-left navbar-top-links">
-                    <li><a href="#"><i class="fa fa-home fa-fw"></i> Website</a></li>
+                    <li><a href="<?= base_url(); ?>" target="_blank"><i class="fa fa-home fa-fw"></i> Website</a></li>
                 </ul>
 
                 <ul class="nav navbar-right navbar-top-links">
