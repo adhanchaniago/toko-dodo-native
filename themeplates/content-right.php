@@ -5,7 +5,7 @@
 	<hr>
 	<?php 
 	$tgl7 = date('d-F-Y', strtotime('-7 days'));
-	$beritaTop = $conn->query("SELECT * FROM berita WHERE terbit = '1' AND tgl >= '$tgl7' ORDER BY id_berita DESC") or die(mysqli_error($conn));
+	$beritaTop = $conn->query("SELECT * FROM berita WHERE terbit = '1' AND tgl >= '$tgl7' ORDER BY id_berita DESC LIMIT 0, 4") or die(mysqli_error($conn));
 	while($rTop = $beritaTop->fetch_assoc()) {
 
 	
