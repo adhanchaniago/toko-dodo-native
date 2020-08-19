@@ -13,7 +13,7 @@ if(isset($_POST['ubahprofile'])) {
 
 ?>
 <form action="" method="post" enctype="multipart/form-data">
-	<input type="text" name="id" value="<?= $_SESSION['id']; ?>">
+	<input type="hidden" name="id" value="<?= $_SESSION['id']; ?>">
 	<div class="form-group">
 		<label for="email">Email</label>
 		<input type="email" name="email" id="email" class="form-control" value="<?= $row['email']; ?>" required readonly>

@@ -10,6 +10,22 @@ if(isset($_SESSION['level'])) {
     exit;
 }
 
+// konfigurasi cookie
+if(isset($_COOKIE['id']) && isset($_COOKIE['key'])) {
+    $id = $_COOKIE['id'];
+    $key = $_COOKIE['key'];
+
+    $result = $conn->query("SELECT * FROM tb_user WHERE id_user = $id") or die(mysqli_error($conn));
+    $row = $result->fetch_assoc();
+    if($key === hash('sha256', $row['id'])) {
+        $_SESSION['id'] = $row['id_user'];
+        $_SESSION['email'] = $row['email'];
+        $_SESSION['level'] = $row['level'];
+        $_SESSION['nama'] = $row['nama_user'];
+        $_SESSION['foto'] = $row['foto_user'];
+    }
+}
+
 if(isset($_POST['masuk'])) {
     $email = htmlspecialchars($_POST['email']);
     $password = htmlspecialchars(md5($_POST['password']));
@@ -21,6 +37,12 @@ if(isset($_POST['masuk'])) {
 
     if($result->num_rows >= 1) {
         $row = $result->fetch_assoc();
+
+        if(isset($_POST['remember'])) {
+            setcookie('id', $row['id_user'], time() + 30);
+            setcookie('key', hash('sha256', $row['email']), time() + 30);
+        }
+
         $_SESSION['id'] = $row['id_user'];
         $_SESSION['email'] = $row['email'];
         $_SESSION['level'] = $row['level'];

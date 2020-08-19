@@ -1,4 +1,8 @@
 <?php 
+
+if($_SESSION['level'] == 1) {
+
+
 // menampilkan semua tabel user
 $queryUser = $conn->query("SELECT * FROM tb_user") or die(mysqli_error($conn));
 
@@ -143,3 +147,9 @@ if(isset($_POST['ubah'])) {
 <!-- /.modal-dialog -->
 </div>
 
+<?php 
+} else {
+	header("Location: index.php"); exit;
+}
+
+?>

@@ -10,7 +10,7 @@ if(isset($_POST['gantipass'])) {
 ?>
 
 <form action="" method="post">
-	<input type="text" name="id" value="<?= $_SESSION['id']; ?>">
+	<input type="hidden" name="id" value="<?= $_SESSION['id']; ?>">
 	<div class="form-group">
 		<label for="passlama">Password Lama</label>
 		<input type="password" name="passlama" id="passlama" class="form-control">
